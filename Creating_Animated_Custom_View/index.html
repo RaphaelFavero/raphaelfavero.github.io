@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- [[! Document Settings ]] -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- [[! Page Meta ]] -->
+    <title>Creating Your Own Animated Custom View in Android</title>
+    <meta name="description" content="Raphaël FAVERO's blog - Android development and machine learning tutorials" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="/assets/images/favicon.ico" >
+
+    <!-- [[! Styles'n'Scripts ]] -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css"
+          href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/syntax.css" />
+    
+    <!-- [[! Ghost outputs important style and meta data with this tag ]] -->
+        <link rel="canonical" href="/" />
+    <meta name="referrer" content="origin" />
+    <link rel="next" href="/page2/" />
+
+    <meta property="og:site_name" content="Raphaël FAVERO's blog" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Raphaël FAVERO's blog" />
+    <meta property="og:description" content="Android development and machine learning tutorials" />
+    <meta property="og:url" content="/" />
+    <meta property="og:image" content="/assets/images/cover1.jpg" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Raphaël FAVERO's blog" />
+    <meta name="twitter:description" content="Android development and machine learning tutorials" />
+    <meta name="twitter:url" content="/" />
+    <meta name="twitter:image:src" content="/assets/images/cover1.jpg" />
+
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Website",
+    "publisher": "Finding The Way Home",
+    "url": "/",
+    "image": "/assets/images/cover1.jpg",
+    "description": "Android development and machine learning tutorials"
+}
+    </script>
+
+    <meta name="generator" content="Jekyll 3.0.0" />
+    <link rel="alternate" type="application/rss+xml" title="Raphaël FAVERO's blog" href="/rss.xml" />
+
+</head>
+<body class="post-template nav-closed">
+
+    <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        <li class="nav-home " role="presentation"><a href="/">Home</a></li>
+		<li class="nav-android " role="presentation"><a href="/tag/android/">Android</a></li>
+		<li class="nav-ml " role="presentation"><a href="/tag/machine-learning/">Machine Learning</a></li>
+        <li class="nav-about " role="presentation"><a href="/about.html">About</a></li>
+    </ul>
+</div>
+<span class="nav-cover"></span>
+
+    <div class="site-wrapper">
+
+        <!-- [[! Everything else gets inserted here ]] -->
+        <!-- < default -->
+
+<!-- The comment above "< default" means - insert everything in this file into -->
+    <!-- the [body] of the default.hbs template, which contains our header/footer. -->
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<header class="main-header" >
+    
+        
+            <a class="menu-button icon-menu" href="#"><span class="word">Menu</span></a>
+        
+   
+</header>
+
+<main class="content" role="main">
+
+    <article class="post tag-test tag-content">
+
+        <header class="post-header">
+            <h1 class="post-title">Creating Your Own Animated Custom View in Android</h1>
+            <section class="post-meta">
+            <!-- <a href='/'>Raphaël FAVERO</a> -->
+            <time class="post-date" datetime="2015-12-07">07 Dec 2015</time>
+                <!-- [[tags prefix=" on "]] -->
+                 
+                on 
+                
+                    
+                       <a href='/tag/android'>Android</a>
+                       
+                
+                
+            </section>
+        </header>
+
+        <section class="post-content">
+            
+            <p>Even though Android has over 70 built-in views, in many cases you&#39;ll want to have something that&#39;s not part of the SDK. </p>
+
+<p>Using open-source libraries found on GitHub can do the trick from time to time but it&#39;s rare to find something that does exactly what you want and that is not buggy.</p>
+
+<p>Luckily, Android provides many ways to create custom views and it&#39;s not even that hard to do!
+In this example, we will make an animated semi-circle that displays progress.  </p>
+
+<p><img src="/assets/images/semicircle.gif" alt="animation"></p>
+
+<p>The entire code is available <a href="https://gist.github.com/RaphaelFavero/d49bd266d0a73d16740a" title="SemiCircleView">here</a> if you don&#39;t want to read the whole thing.</p>
+
+<p>Let&#39;s start!</p>
+
+<h2>Create a new class that extends View</h2>
+
+<p>First you need to create a class that extends <code>View</code>. You can implement numerous different constructors but the most important 
+one if you want to create your <code>View</code> from XML contains 2 arguments: a <code>Context</code> and an <code>AttributeSet</code>.</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SemiCircleView</span> <span class="kd">extends</span> <span class="n">View</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="nf">SemiCircleView</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">AttributeSet</span> <span class="n">attrs</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">attrs</span><span class="o">);</span>
+
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+
+<p>The <code>AttributeSet</code> contains the collection of attributes that you will get from the XML tags. We&#39;ll come back to this later in more detail.</p>
+
+<h2>Overriding onDraw()</h2>
+
+<p><code>onDraw(Canvas canvas)</code> is the method that will be called every time your view needs to be drawn or redrawn. The <code>Canvas</code> object contains all the methods to draw lines, text, etc…</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onDraw</span><span class="o">(</span><span class="n">Canvas</span> <span class="n">canvas</span><span class="o">)</span> <span class="o">{</span>
+    
+    <span class="c1">// Will call canvas.doSomething()</span>
+    
+<span class="o">}</span></code></pre></div>
+
+<h2>Define our  drawing objects</h2>
+
+<p>We want to create two semi-circles on top of each other: the one in front will be animated, the one in the back will be the rim.
+We need one instance of each of the following objects for each semi-circle : <code>Path</code>, <code>Paint</code>, <code>RectF</code>.</p>
+
+<p><code>Path</code> let us define lines and curves with coordinates.<br>
+<code>Paint</code> defines how we draw those shapes: color, style, etc…<br>
+<code>RectF</code>  is a rectangle inside of which we will draw our arc.   </p>
+
+<p>For now, let&#39;s just instantiate the objects we need for the rim.</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="n">Path</span> <span class="n">rimPath</span><span class="o">;</span>
+<span class="kd">private</span> <span class="n">Paint</span> <span class="n">rimPaint</span><span class="o">;</span>
+<span class="kd">private</span> <span class="n">RectF</span> <span class="n">rimRect</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SemiCircleView</span> <span class="kd">extends</span> <span class="n">View</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="nf">SemiCircleView</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">AttributeSet</span> <span class="n">attrs</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">attrs</span><span class="o">);</span>
+        
+        <span class="n">rimPath</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Path</span><span class="o">();</span>
+        <span class="n">rimRect</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">RectF</span><span class="o">();</span>
+        <span class="n">rimPaint</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Paint</span><span class="o">();</span>
+        <span class="c1">//This will draw the contour of our path (easier to see what we&#39;re drawing), we&#39;ll switch to Style.FILL later.</span>
+        <span class="n">rimPaint</span><span class="o">.</span><span class="na">setStyle</span><span class="o">(</span><span class="n">Paint</span><span class="o">.</span><span class="na">Style</span><span class="o">.</span><span class="na">STROKE</span><span class="o">);</span>
+        <span class="n">rimPaint</span><span class="o">.</span><span class="na">setColor</span><span class="o">(</span><span class="n">Color</span><span class="o">.</span><span class="na">LTGRAY</span><span class="o">);</span>
+        <span class="n">rimPaint</span><span class="o">.</span><span class="na">setAntiAlias</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+
+<h2>Override onSizeChanged()</h2>
+
+<p>This is where we will define our shapes based on the height and width of the View.</p>
+
+<p><code>onSizeChanged(int w, int h, int oldw, int oldh)</code> has 4 parameters : w &amp; h are the current width and height. oldw &amp; oldh are the previous one.</p>
+
+<p>Read the comments carefully to understand the logic behind the drawing:</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onSizeChanged</span><span class="o">(</span><span class="kt">int</span> <span class="n">w</span><span class="o">,</span> <span class="kt">int</span> <span class="n">h</span><span class="o">,</span> <span class="kt">int</span> <span class="n">oldw</span><span class="o">,</span> <span class="kt">int</span> <span class="n">oldh</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="c1">//Set the thickness of our circle to 1/8 of the width</span>
+    <span class="n">thickness</span> <span class="o">=</span> <span class="n">w</span> <span class="o">/</span><span class="mi">8</span><span class="o">;</span>  
+    
+    <span class="c1">//makes the current width available to our other methods</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="n">w</span><span class="o">;</span>
+
+    <span class="c1">// Set the Rectangle coordinates to a square of size w*w (in order to have a circle shape)</span>
+    <span class="n">rimRect</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">w</span><span class="o">,</span> <span class="n">w</span><span class="o">);</span>
+
+    <span class="c1">//This makes sure the Path is empty</span>
+    <span class="n">rimPath</span><span class="o">.</span><span class="na">reset</span><span class="o">();</span>
+    
+    <span class="c1">//Start our path at x=0 (left side) and y=w/2 (middle of the height of      the square)</span>
+    <span class="n">rimPath</span><span class="o">.</span><span class="na">moveTo</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">w</span><span class="o">/</span><span class="mi">2</span><span class="o">);</span>
+
+    <span class="c1">//This draws the external arc inside our RectF object, starting at 180 degree and moving 180 degree clockwise</span>
+    <span class="n">rimPath</span><span class="o">.</span><span class="na">arcTo</span><span class="o">(</span><span class="n">rimOval</span><span class="o">,</span> <span class="mi">180</span><span class="o">,</span> <span class="mi">180</span><span class="o">);</span>
+
+    <span class="c1">// This draws the right closing line of our semi-circle</span>
+    <span class="n">rimPath</span><span class="o">.</span><span class="na">rLineTo</span><span class="o">(-</span><span class="n">thickness</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+
+    <span class="c1">// This moves the sides of RectF inward </span>
+    <span class="n">rimOval</span><span class="o">.</span><span class="na">inset</span><span class="o">(</span><span class="n">thickness</span><span class="o">,</span> <span class="n">thickness</span><span class="o">);</span>
+
+    <span class="c1">// This draws our internal arc using the new size of our RectF object, starting from angle 0 and moving 180 degree counter-clockwise</span>
+    <span class="n">rimPath</span><span class="o">.</span><span class="na">arcTo</span><span class="o">(</span><span class="n">rimOval</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="o">-</span><span class="mi">180</span><span class="o">);</span>
+
+    <span class="c1">// This draws the left closing line</span>
+    <span class="n">rimPath</span><span class="o">.</span><span class="na">rLineTo</span><span class="o">(-</span><span class="n">dx</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+<span class="o">}</span></code></pre></div>
+
+<h2>Draw the path in onDraw()</h2>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onDraw</span><span class="o">(</span><span class="n">Canvas</span> <span class="n">canvas</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">canvas</span><span class="o">.</span><span class="na">drawPath</span><span class="o">(</span><span class="n">rimPath</span><span class="o">,</span> <span class="n">rimPaint</span><span class="o">);</span>
+    <span class="o">}</span></code></pre></div>
+
+<p>Now you should have something like this:</p>
+
+<p><img src="/assets/images/SemiCircle.jpg" alt="semi-circle"></p>
+
+<p>You can now change the style to FILL in <code>rimPaint.setStyle(Paint.Style.FILL)</code>, this will fill the drawing with the previously chosen color. </p>
+
+<h2>Now let&#39;s animate!</h2>
+
+<p>Create 3 new objects : <code>Path</code>, <code>Paint</code>, <code>RectF</code> for the front semi-circle but set a different color in the <code>Paint</code> object.  </p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="n">Path</span> <span class="n">frontPath</span><span class="o">;</span>
+<span class="kd">private</span> <span class="n">Paint</span> <span class="n">frontPaint</span><span class="o">;</span>
+<span class="kd">private</span> <span class="n">RectF</span> <span class="n">frontRect</span><span class="o">;</span>  
+
+<span class="kd">public</span> <span class="nf">SemiCircleView</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">AttributeSet</span> <span class="n">attrs</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">attrs</span><span class="o">);</span>  
+        <span class="c1">//....  </span>
+        
+        <span class="n">frontPath</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Path</span><span class="o">();</span>
+        <span class="n">frontRect</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">RectF</span><span class="o">();</span>
+        <span class="n">frontPaint</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Paint</span><span class="o">();</span>
+        <span class="n">frontPaint</span><span class="o">.</span><span class="na">setStyle</span><span class="o">(</span><span class="n">Paint</span><span class="o">.</span><span class="na">Style</span><span class="o">.</span><span class="na">FILL</span><span class="o">);</span>
+        <span class="n">frontPaint</span><span class="o">.</span><span class="na">setColor</span><span class="o">(</span><span class="n">Color</span><span class="o">.</span><span class="na">CYAN</span><span class="o">);</span>
+        <span class="n">frontPaint</span><span class="o">.</span><span class="na">setAntiAlias</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+    <span class="o">}</span></code></pre></div>
+
+<p>We&#39;re going to use these for the animation.</p>
+
+<p>First you need to implement the ValueAnimator.AnimatorUpdateListener interface and to override its onAnimationUpdate() method.</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SemiCircleView</span> <span class="kd">extends</span> <span class="n">View</span> <span class="kd">implements</span> <span class="n">ValueAnimator</span><span class="o">.</span><span class="na">AnimatorUpdateListener</span><span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onAnimationUpdate</span><span class="o">(</span><span class="n">ValueAnimator</span> <span class="n">animation</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//Do something</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+
+<p>A <code>ValueAnimator</code> is a simple object that changes a defined value over time, the <code>AnimatorUpdateListener</code> is then called every time this value is updated.</p>
+
+<p>You can now set and start the animation in a public method that you will later call from your <code>Activity</code> or <code>Fragment</code>, 
+let&#39;s call it <code>startAnim()</code>.</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="n">ValueAnimator</span> <span class="n">mAnimator</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">startAnim</span><span class="o">()</span> <span class="o">{</span>  
+        <span class="c1">// sets the range of our value</span>
+        <span class="n">mAnimator</span> <span class="o">=</span> <span class="n">ValueAnimator</span><span class="o">.</span><span class="na">ofInt</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">180</span><span class="o">);</span>
+        <span class="c1">// sets the duration of our animation</span>
+        <span class="n">mAnimator</span><span class="o">.</span><span class="na">setDuration</span><span class="o">(</span><span class="mi">1000</span><span class="o">);</span>
+        <span class="c1">// registers our AnimatorUpdateListener</span>
+        <span class="n">mAnimator</span><span class="o">.</span><span class="na">addUpdateListener</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="n">mAnimator</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+<span class="o">}</span></code></pre></div>
+
+<p>Finally we can implement the code inside <code>onAnimationUpdate()</code>:</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onAnimationUpdate</span><span class="o">(</span><span class="n">ValueAnimator</span> <span class="n">animation</span><span class="o">)</span> <span class="o">{</span>
+
+        <span class="c1">//gets the current value of our animation</span>
+        <span class="kt">int</span> <span class="n">value</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">animation</span><span class="o">.</span><span class="na">getAnimatedValue</span><span class="o">();</span>
+
+        <span class="c1">//makes sure the path is empty</span>
+        <span class="n">frontPath</span><span class="o">.</span><span class="na">reset</span><span class="o">();</span>
+
+        <span class="c1">//sets the rectangle for our arc</span>
+        <span class="n">frontRect</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">width</span><span class="o">,</span> <span class="n">width</span><span class="o">);</span>
+
+        <span class="c1">// starts our drawing on the middle left</span>
+        <span class="n">frontPath</span><span class="o">.</span><span class="na">moveTo</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="o">);</span>
+
+        <span class="c1">//draws an arc starting at 180° and moving clockwise for the corresponding value</span>
+        <span class="n">frontPath</span><span class="o">.</span><span class="na">arcTo</span><span class="o">(</span><span class="n">frontRect</span><span class="o">,</span> <span class="mi">180</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
+
+        <span class="c1">//moves our rectangle inward in order to draw the interior arc</span>
+        <span class="n">frontRect</span><span class="o">.</span><span class="na">inset</span><span class="o">(</span><span class="n">thickness</span><span class="o">,</span> <span class="n">thickness</span><span class="o">);</span>
+
+        <span class="c1">//draws the interior arc starting at(180+value)° and moving counter-clockwise for the corresponding value</span>
+        <span class="n">frontPath</span><span class="o">.</span><span class="na">arcTo</span><span class="o">(</span><span class="n">frontRect</span><span class="o">,</span> <span class="mi">180</span> <span class="o">+</span> <span class="n">value</span><span class="o">,</span> <span class="o">-</span><span class="n">value</span><span class="o">);</span>
+
+        <span class="c1">//draws the closing line</span>
+        <span class="n">frontPath</span><span class="o">.</span><span class="na">rLineTo</span><span class="o">(-</span><span class="n">thickness</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+
+        <span class="c1">// Forces the view to reDraw itself</span>
+        <span class="n">invalidate</span><span class="o">();</span>
+
+    <span class="o">}</span></code></pre></div>
+
+<p>Now you can draw the front semi-circle in <code>onDraw()</code>:</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onDraw</span><span class="o">(</span><span class="n">Canvas</span> <span class="n">canvas</span><span class="o">)</span> <span class="o">{</span>
+        <span class="o">...</span>  
+        <span class="n">canvas</span><span class="o">.</span><span class="na">drawPath</span><span class="o">(</span><span class="n">frontPath</span><span class="o">,</span> <span class="n">frontPaint</span><span class="o">);</span>
+    <span class="o">}</span></code></pre></div>
+
+<h2>Adding XML attributes</h2>
+
+<p>Remember the <code>AttributeSet</code> object in our constructor?<br>
+Well, this is what allows us to style our <code>View</code> directly in our XML Layout.</p>
+
+<p>Let&#39;s see an example of changing the color via an XML tag.</p>
+
+<p>First, declare your styleable attributes in values/attrs.xml:</p>
+
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;resources&gt;</span>
+
+    <span class="nt">&lt;declare-styleable</span> <span class="na">name=</span><span class="s">&quot;SemiCircleView&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;attr</span> <span class="na">name=</span><span class="s">&quot;colorFront&quot;</span> <span class="na">format=</span><span class="s">&quot;color&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;attr</span> <span class="na">name=</span><span class="s">&quot;colorBack&quot;</span> <span class="na">format=</span><span class="s">&quot;color&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/declare-styleable&gt;</span>
+
+<span class="nt">&lt;/resources&gt;</span></code></pre></div>
+
+<p>Now you can use these attributes in your layout to define your colors :</p>
+
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;yourpath.SemiCircleView</span>
+        <span class="na">android:id=</span><span class="s">&quot;@+id/view&quot;</span>
+        <span class="na">android:layout_width=</span><span class="s">&quot;200dp&quot;</span>
+        <span class="na">android:layout_height=</span><span class="s">&quot;100dp&quot;</span>
+        <span class="na">app:colorFront=</span><span class="s">&quot;@color/colorAccent&quot;</span>
+        <span class="na">app:colorBack=</span><span class="s">&quot;@color/colorPrimaryDark&quot;</span>
+    <span class="nt">/&gt;</span></code></pre></div>
+
+<p>Finally, you can retrieve the attributes in the <code>View</code> constructor and use them to set colors in the <code>Paint</code> objects:</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">int</span> <span class="n">mColorFront</span><span class="o">;</span>
+<span class="kd">private</span> <span class="kt">int</span> <span class="n">mColorBack</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="nf">SemiCircleView</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">AttributeSet</span> <span class="n">attrs</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">attrs</span><span class="o">);</span>
+    
+    <span class="n">TypedArray</span> <span class="n">a</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getTheme</span><span class="o">().</span><span class="na">obtainStyledAttributes</span><span class="o">(</span>
+            <span class="n">attrs</span><span class="o">,</span>
+            <span class="n">R</span><span class="o">.</span><span class="na">styleable</span><span class="o">.</span><span class="na">SemiCircleView</span><span class="o">,</span>
+            <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="n">mColorFront</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">styleable</span><span class="o">.</span><span class="na">SemiCircleView_colorFront</span><span class="o">,</span> <span class="n">Color</span><span class="o">.</span><span class="na">CYAN</span><span class="o">);</span>
+        <span class="n">mColorBack</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="na">getColor</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">styleable</span><span class="o">.</span><span class="na">SemiCircleView_colorBack</span><span class="o">,</span> <span class="n">Color</span><span class="o">.</span><span class="na">LTGRAY</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+        <span class="n">a</span><span class="o">.</span><span class="na">recycle</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="o">...</span>
+    
+    <span class="n">rimPaint</span><span class="o">.</span><span class="na">setColor</span><span class="o">(</span><span class="n">mColorBack</span><span class="o">);</span>
+    <span class="n">frontPaint</span><span class="o">.</span><span class="na">setColor</span><span class="o">(</span><span class="n">mColorFront</span><span class="o">);</span>
+    <span class="o">}</span></code></pre></div>
+
+<p>I hope this tutorial helped you in understanding how to create custom views. Have fun experimenting with it!  </p>
+
+<p>Full code available <a href="https://gist.github.com/RaphaelFavero/d49bd266d0a73d16740a" title="SemiCircleView">here</a>.</p>
+
+
+        </section>
+
+        <footer class="post-footer">
+
+            <!-- Everything inside the #author tags pulls data from the author -->
+            <!-- #author-->
+
+            
+
+            <section class="author">
+                <h4><a href="/author/raphaelfavero">Raphaël FAVERO</a></h4>
+                
+                
+                    <p> ...</p>
+                
+                <div class="author-meta">
+                    <span class="author-location icon-location"> Paris, FRANCE</span> 
+                    <span class="author-link icon-link"><a href="http://raphaelfavero.github.io/"> raphaelfavero.github.io/</a></span> 
+                </div>
+            </section>
+
+            <!-- /author  -->
+
+            <section class="share">
+                <h4>Share this post</h4>
+                <a class="icon-twitter" href="http://twitter.com/share?text=Creating Your Own Animated Custom View in Android&amp;url=http://raphaelfavero.github.io//Creating_Animated_Custom_View"
+                    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <span class="hidden">Twitter</span>
+                </a>
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://raphaelfavero.github.io//Creating_Animated_Custom_View"
+                    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <span class="hidden">Facebook</span>
+                </a>
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=http://raphaelfavero.github.io//Creating_Animated_Custom_View"
+                   onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <span class="hidden">Google+</span>
+                </a>
+            </section>
+            
+            <!-- Add Disqus Comments -->
+            
+            
+        </footer>
+
+    </article>
+
+</main>
+
+<aside class="read-next">
+
+    <!-- [[! next_post ]] -->
+    
+    <!-- [[! /next_post ]] -->
+    <!-- [[! prev_post ]] -->
+    
+    <!-- [[! /prev_post ]] -->
+</aside>
+
+<!-- /post -->
+
+
+        <footer class="site-footer clearfix">
+          <section class="copyright"><a href="/">Raphaël FAVERO's blog</a> &copy; 2015</section>
+          <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> using <a href="https://github.com/biomadeira/jasper">Jasper</a></section>
+        </footer>
+    </div>
+    <!-- [[! Ghost outputs important scripts and data with this tag ]] -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- [[! The main JavaScript file for Casper ]] -->
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+    <!-- Add Google Analytics  -->
+        <!-- Google Analytics Tracking code -->
+     <script>
+	    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	    ga('create', 'UA-71153157-1', 'auto');
+	    ga('send', 'pageview');
+
+     </script>   
+</body>
+</html>
